@@ -8,6 +8,13 @@
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Orbitron');
+        #clock{
+            font-size: 40px;
+            font-family: Orbitron;
+        }
+    </style>
 </head>
 <body>
     <nav>
@@ -15,10 +22,47 @@
             <a href="#" id="logo"class="brand-logo">Timesheet</a>
         </div>
     </nav>
+    <br>
     <section>
         <div class="container">
+            <!-- <div class="row center">
+                <div class="col s12" id="clock">
+                    <p>
+                    <span id="month"></span> 
+                    <span id="day"></span> ,
+                    <span id="year"></span>
+                    </p>
+                </div>
+            </div> -->
             <div class="row center">
-                <div class="col s12" id="clock"></div>
+                <div class="col s12" id="clock">
+                    <p>
+                    <span id="month"></span> 
+                    <span id="day"></span> ,
+                    <span id="year"></span>
+                    </p>
+                    <p>
+                    <span id="hour"></span> :
+                    <span id="minute"></span> :
+                    <span id="second"></span>
+                    </p>
+                </div>
+            </div>
+            <div class="row center">
+                <div class="col s6 offset-s3">
+                    <form>
+                        <div class="input-field">
+                            <input type="submit" id="clockIn" class="btn green">
+                        </div>
+                        <!--
+                        <div class="input-field">
+                                <i class="fas fa-users prefix"></i>
+                                <input type="text" id="clockOut" class="input-field">
+                                <label for="clockOut"></label>
+                        </div>
+                        -->
+                    </form>
+                </div>
             </div>
         </div>
     </section>
@@ -27,6 +71,11 @@
         <div class="container">
             <div class="row center">
                 <form class="col s6 offset-s3">
+                    <div class="input-field">
+                            <i class="fas fa-users prefix"></i>
+                        <input type="text" id="name">
+                        <label for="name">Full Name</label>
+                    </div>
                     <div class="input-field">
                         <i class="fas fa-clock prefix"></i>
                         <input type="text" id="time">
@@ -48,7 +97,6 @@
             </div>
         </div>
     </section>
-
     <script src="app.js"></script>
 </body>
 </html>
