@@ -5,6 +5,7 @@ const firstName = document.querySelector('#firstName');
 const lastName = document.querySelector('#lastName');
 const list = document.querySelector('#shiftTable');
 const formTime = document.querySelector('#time');
+const shitTableBody = document.querySelector('#shiftTableBody');
 // const employDate = document.querySelector('#employeeDate');
 // const employName = document.querySelector('#employeeName');
 
@@ -13,6 +14,7 @@ getEventListeners();
 function getEventListeners(){
     clockIn.addEventListener('click', employeeTime);
     timeSheetForm.addEventListener('submit', addEmployeeTime);
+    list.addEventListener('click', deleteEmployee);
 }
 
 function employeeTime(e){
@@ -42,10 +44,12 @@ function employeeTime(e){
     e.preventDefault();
 }
 function addEmployeeTime(e){
-    const employ = document.querySelector('#employ');
+    const employ = document.createElement('tr');
     employ.className = 'Selected';
+    shitTableBody.appendChild(employ);
     const tdEmployeeName = document.createElement('td');
     const tdCurrentTime = document.createElement('td');
+    const tdCurrentEndTime = document.createElement('td');
     const tdCurrentDate = document.createElement('td');
     const tdDelete = document.createElement('td');
     const time = new Date();
@@ -55,17 +59,37 @@ function addEmployeeTime(e){
     let month = time.getMonth() + 1;
     let day = time.getDate();
     let year = time.getFullYear();
+    if(hour < 10){
+        hour = `0${hour}`;
+    }
+    if(minute < 10){
+        minute = `0${minute}`;
+    }
+    if(second < 10){
+        second = `0${second}`;
+    }
     tdEmployeeName.appendChild(document.createTextNode(`${firstName.value} ${lastName.value}`));
     tdCurrentTime.appendChild(document.createTextNode(`${hour} : ${minute}`));
     tdCurrentDate.appendChild(document.createTextNode(`${month} ${day}, ${year}`));
     employ.appendChild(tdEmployeeName);
     employ.appendChild(tdCurrentDate);
     employ.appendChild(tdCurrentTime);
+    employ.appendChild(tdCurrentEndTime);
     employ.appendChild(tdDelete);
     const a = document.createElement('a');
+    a.className = 'delete';
     a.innerHTML = '<i class="fas fa-user-minus"></i>';
     tdDelete.appendChild(a);
+    firstName.value = '';
+    lastName.value = '';
+    formTime.value = '';
     e.preventDefault();
+}
+
+function deleteEmployee(e){
+    if(e.target.parentElement.classList.contains('delete')){
+        e.target.parentElement.parentElement.parentElement.remove();
+    }
 }
 //Current Date function
 function clock(){
