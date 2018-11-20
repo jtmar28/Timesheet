@@ -41,7 +41,7 @@
             </div>
             <div class="row center">
                 <div class="col s6 offset-s3">
-                    <form id="timeSheetForm">
+                    <form id="currentTimeForm">
                         <div class="input-field">
                             <input type="submit" id="clockIn" class="btn green">
                         </div>
@@ -61,7 +61,7 @@
     <section>
         <div class="container">
             <div class="row center">
-                <form class="col s6 offset-s3">
+                <form id="timeSheetForm" class="col s6 offset-s3">
                     <div class="row">
                         <div class="input-field col s6">
                             <i class="fas fa-users prefix"></i>
@@ -76,7 +76,7 @@
                         <input type="text" id="time" placeholder="Time">
                     </div>
                     <div class="input-field">
-                        <input type="submit" class="btn btn-block"value="Submit">
+                        <input type="submit" class="btn btn-block" value="Submit">
                     </div>
                 </form>
             </div>
@@ -86,7 +86,19 @@
         <div class="container">
             <div class="row center">
                 <div class="col s6 offset-s3">
-                    <ul id="shiftTable" class="collection"></ul>
+                    <table id="shiftTable" class="stripped">
+                        <thead id="shiftTableHead">
+                            <tr>
+                                <th>Employee</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="shitTableBody">
+                            <tr id="employ"></tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
