@@ -7,8 +7,9 @@ const list = document.querySelector('#shiftTable');
 const formTime = document.querySelector('#time');
 const shiftTableBody = document.querySelector('#shiftTableBody');
 const filter = document.querySelector('#search');
-// const employDate = document.querySelector('#employeeDate');
-// const employName = document.querySelector('#employeeName');
+const currentTimeForm = document.querySelector('#currentTimeForm');
+const inputFieldTimeForm = document.querySelector('#inputFieldTimeForm');
+
 
 getEventListeners();
 
@@ -17,6 +18,7 @@ function getEventListeners(){
     timeSheetForm.addEventListener('submit', addEmployeeTime);
     list.addEventListener('click', deleteEmployee);
     filter.addEventListener('keyup',searchEmployee);
+    document.addEventListener('click', clockOutTd);
 }
 
 function employeeTime(e){
@@ -47,12 +49,12 @@ function employeeTime(e){
 }
 function addEmployeeTime(e){
     const employ = document.createElement('tr');
-    employ.className = 'Selected';
     employ.id = 'Employee';
     shiftTableBody.appendChild(employ);
     const tdEmployeeName = document.createElement('td');
     const tdCurrentTime = document.createElement('td');
     const tdCurrentEndTime = document.createElement('td');
+    tdCurrentEndTime.className = 'clockOutTd';
     const tdCurrentDate = document.createElement('td');
     const tdDelete = document.createElement('td');
     const time = new Date();
@@ -105,6 +107,33 @@ function searchEmployee(e){
         }
     });
 }
+function clockOutTd(e){
+    if(e.target.classList.contains('clockOutTd')){
+        e.target.parentElement.style.border= '5px solid green';
+        e.target.parentElement.className = 'selected';
+        const clock = new Date();
+        let hour = clock.getHours();
+        let minute = clock.getMinutes();
+        let second = clock.getSeconds();
+        if(hour < 10){
+            hour = `0${hour}`;
+        }
+        if(minute < 10){
+            minute = `0${minute}`;
+        }
+        if(second < 10){
+            second = `0${second}`;
+        }
+        e.target.innerHTML = `${hour} : ${minute}`;
+        setInterval(function removeBorder(){
+            if(e.target.parentElement.classList.contains('selected')){
+                e.target.parentElement.style.border= 'none';
+                e.target.parentElement.classList.remove('selected');
+            }
+        }, 1000);
+    }
+}
+
 //Current Date function
 function clock(){
     const clock = new Date();
