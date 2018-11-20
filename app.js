@@ -5,7 +5,8 @@ const firstName = document.querySelector('#firstName');
 const lastName = document.querySelector('#lastName');
 const list = document.querySelector('#shiftTable');
 const formTime = document.querySelector('#time');
-const shitTableBody = document.querySelector('#shiftTableBody');
+const shiftTableBody = document.querySelector('#shiftTableBody');
+const filter = document.querySelector('#search');
 // const employDate = document.querySelector('#employeeDate');
 // const employName = document.querySelector('#employeeName');
 
@@ -15,6 +16,7 @@ function getEventListeners(){
     clockIn.addEventListener('click', employeeTime);
     timeSheetForm.addEventListener('submit', addEmployeeTime);
     list.addEventListener('click', deleteEmployee);
+    filter.addEventListener('keyup',searchEmployee);
 }
 
 function employeeTime(e){
@@ -46,7 +48,8 @@ function employeeTime(e){
 function addEmployeeTime(e){
     const employ = document.createElement('tr');
     employ.className = 'Selected';
-    shitTableBody.appendChild(employ);
+    employ.id = 'Employee';
+    shiftTableBody.appendChild(employ);
     const tdEmployeeName = document.createElement('td');
     const tdCurrentTime = document.createElement('td');
     const tdCurrentEndTime = document.createElement('td');
@@ -90,6 +93,17 @@ function deleteEmployee(e){
     if(e.target.parentElement.classList.contains('delete')){
         e.target.parentElement.parentElement.parentElement.remove();
     }
+}
+function searchEmployee(e){
+    const text = e.target.value.toLowerCase();
+    document.querySelectorAll('#Employee').forEach(function(employee){
+        const person = employee.firstChild.textContent;
+        if(person.toLowerCase().indexOf(text) != -1){
+            employee.style.display = 'table-row';
+        }else{
+            employee.style.display = 'none';
+        }
+    });
 }
 //Current Date function
 function clock(){
