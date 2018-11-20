@@ -25,32 +25,23 @@
     <br>
     <section>
         <div class="container">
-            <!-- <div class="row center">
-                <div class="col s12" id="clock">
-                    <p>
-                    <span id="month"></span> 
-                    <span id="day"></span> ,
-                    <span id="year"></span>
-                    </p>
-                </div>
-            </div> -->
             <div class="row center">
                 <div class="col s12" id="clock">
-                    <p>
+                    <div class="currentDate">
                     <span id="month"></span> 
                     <span id="day"></span> ,
                     <span id="year"></span>
-                    </p>
-                    <p>
+                    </div>
+                    <div id="currentTime">
                     <span id="hour"></span> :
                     <span id="minute"></span> :
                     <span id="second"></span>
-                    </p>
+                    </div>
                 </div>
             </div>
             <div class="row center">
                 <div class="col s6 offset-s3">
-                    <form>
+                    <form id="timeSheetForm">
                         <div class="input-field">
                             <input type="submit" id="clockIn" class="btn green">
                         </div>
@@ -71,15 +62,18 @@
         <div class="container">
             <div class="row center">
                 <form class="col s6 offset-s3">
-                    <div class="input-field">
+                    <div class="row">
+                        <div class="input-field col s6">
                             <i class="fas fa-users prefix"></i>
-                        <input type="text" id="name">
-                        <label for="name">Full Name</label>
+                            <input type="text" id="firstName" placeholder="First Name">
+                        </div> 
+                        <div class="input-field col s6">
+                            <input type="text" id="lastName" placeholder="Last Name">
+                        </div>
                     </div>
                     <div class="input-field">
                         <i class="fas fa-clock prefix"></i>
-                        <input type="text" id="time">
-                        <label for="time">Time</label>
+                        <input type="text" id="time" placeholder="Time">
                     </div>
                     <div class="input-field">
                         <input type="submit" class="btn btn-block"value="Submit">
@@ -92,7 +86,7 @@
         <div class="container">
             <div class="row center">
                 <div class="col s6 offset-s3">
-                    <ul class="collection"></ul>
+                    <ul id="shiftTable" class="collection"></ul>
                 </div>
             </div>
         </div>
