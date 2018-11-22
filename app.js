@@ -14,6 +14,7 @@ const inputFieldTimeForm = document.querySelector('#inputFieldTimeForm');
 getEventListeners();
 
 function getEventListeners(){
+    document.addEventListener('DOMContentLoaded',getEmployeeNameFromLS);
     clockIn.addEventListener('click', employeeTime);
     timeSheetForm.addEventListener('submit', addEmployeeTime);
     list.addEventListener('click', deleteEmployee);
@@ -57,25 +58,12 @@ function addEmployeeTime(e){
     tdCurrentEndTime.className = 'clockOutTd';
     const tdCurrentDate = document.createElement('td');
     const tdDelete = document.createElement('td');
-    const time = new Date();
-    let hour = time.getHours();
-    let minute = time.getMinutes();
-    let second = time.getSeconds();
-    let month = time.getMonth() + 1;
-    let day = time.getDate();
-    let year = time.getFullYear();
-    if(hour < 10){
-        hour = `0${hour}`;
-    }
-    if(minute < 10){
-        minute = `0${minute}`;
-    }
-    if(second < 10){
-        second = `0${second}`;
-    }
     tdEmployeeName.appendChild(document.createTextNode(`${firstName.value} ${lastName.value}`));
-    tdCurrentTime.appendChild(document.createTextNode(`${hour} : ${minute}`));
-    tdCurrentDate.appendChild(document.createTextNode(`${month} ${day}, ${year}`));
+    tdCurrentTime.appendChild(document.createTextNode(formTime.value.substr(12,19)));
+    tdCurrentDate.appendChild(document.createTextNode(formTime.value.substr(0,11)));
+    addEmployeeNameIntoLs(`${firstName.value} ${lastName.value}`);
+    console.log(formTime.value.substr(12,19));
+    console.log(formTime.value.substr(0,11));
     employ.appendChild(tdEmployeeName);
     employ.appendChild(tdCurrentDate);
     employ.appendChild(tdCurrentTime);
@@ -88,9 +76,68 @@ function addEmployeeTime(e){
     firstName.value = '';
     lastName.value = '';
     formTime.value = '';
+    //addEmployeeTimeIntoLs(employ.value);
     e.preventDefault();
 }
-
+function getEmployeeNameFromLS(){
+    let employName;
+    if(localStorage.getItem('employeeName') === null){
+        employName = [];
+    }else{
+        employName = JSON.parse(localStorage.getItem('employeeName'));
+    }
+    employName.forEach(function(employeeName){
+        const employ = document.createElement('tr');
+        employ.id = 'Employee';
+        shiftTableBody.appendChild(employ);
+        const tdEmployeeName = document.createElement('td');
+        tdEmployeeName.id = 'employeeId';
+        const tdDelete = document.createElement('td');
+        tdEmployeeName.appendChild(document.createTextNode(employeeName));
+        
+        employ.appendChild(tdEmployeeName);
+        const a = document.createElement('a');
+        a.className = 'delete';
+        a.innerHTML = '<i class="fas fa-user-minus"></i>';
+        tdDelete.appendChild(a);
+        employ.appendChild(tdDelete);
+    });
+}
+// function getEmployeeDateFromLS(){
+//     let employDate;
+//     if(localStorage.getItem('employeeDate') === null){
+//         employeDate = [];
+//     }else{
+//         employDate = JSON.parse(localStorage.getItem('employeeDate'));
+//     }
+//     employDate.forEach(function(employeeDate){
+//         const tdCurrentDate = document.createElement('td');
+//         tdCurrentDate.appendChild(document.createTextNode(employeeDate));
+//         document.getElementById('Employee').insertBefore(tdCurrentDate,document.getElementById('employeeId'));
+//     });
+// }
+function addEmployeeNameIntoLs(employeeName){
+    let employName;
+    
+    if(localStorage.getItem('employeeName') === null){
+        employName = [];
+    }else{
+        employName = JSON.parse(localStorage.getItem('employeeName'));
+    }
+    employName.push(employeeName);
+    localStorage.setItem('employeeName',JSON.stringify(employName));
+    
+}
+function addEmployeeDateIntoLs(employeeDate){
+    let employDate;
+    if(localStorage.getItem('employeeDate') === null){
+        employeDate = [];
+    }else{
+        employDate = JSON.parse(localStorage.getItem('employeeDate'));
+    }
+    employeDate.push(employeeDate);
+    localStorage.setItem('employeeDate', JSON.stringify(employDate));
+}
 function deleteEmployee(e){
     if(e.target.parentElement.classList.contains('delete')){
         e.target.parentElement.parentElement.parentElement.remove();
@@ -108,29 +155,31 @@ function searchEmployee(e){
     });
 }
 function clockOutTd(e){
-    if(e.target.classList.contains('clockOutTd')){
-        e.target.parentElement.style.border= '5px solid green';
-        e.target.parentElement.className = 'selected';
-        const clock = new Date();
-        let hour = clock.getHours();
-        let minute = clock.getMinutes();
-        let second = clock.getSeconds();
-        if(hour < 10){
-            hour = `0${hour}`;
-        }
-        if(minute < 10){
-            minute = `0${minute}`;
-        }
-        if(second < 10){
-            second = `0${second}`;
-        }
-        e.target.innerHTML = `${hour} : ${minute}`;
-        setInterval(function removeBorder(){
-            if(e.target.parentElement.classList.contains('selected')){
-                e.target.parentElement.style.border= 'none';
-                e.target.parentElement.classList.remove('selected');
+    if(e.target.innerHTML === ''){
+        if(e.target.classList.contains('clockOutTd')){
+            e.target.parentElement.style.border= '5px solid green';
+            e.target.parentElement.className = 'selected';
+            const clock = new Date();
+            let hour = clock.getHours();
+            let minute = clock.getMinutes();
+            let second = clock.getSeconds();
+            if(hour < 10){
+                hour = `0${hour}`;
             }
-        }, 1000);
+            if(minute < 10){
+                minute = `0${minute}`;
+            }
+            if(second < 10){
+                second = `0${second}`;
+            }
+            e.target.innerHTML = `${hour} : ${minute}`;
+            setInterval(function removeBorder(){
+                if(e.target.parentElement.classList.contains('selected')){
+                    e.target.parentElement.style.border= 'none';
+                    e.target.parentElement.classList.remove('selected');
+                }
+            }, 1000);
+        }
     }
 }
 
